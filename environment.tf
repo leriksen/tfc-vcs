@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "lab3-wbc-2"
     workspaces {
-      name = "cli"
+      name = "vcs"
     }
   }
 
