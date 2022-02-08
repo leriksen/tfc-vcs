@@ -1,0 +1,5 @@
+.idea/
+.terraform/
+sp.json
+team.token
+.terraform.lock.hcl
