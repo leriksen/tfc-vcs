@@ -1,3 +1,9 @@
+locals {
+  tags = {
+    default = "tag"
+  }
+}
+
 terraform {
   cloud {
     organization = "lab3-wbc-2"
@@ -23,6 +29,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "tfc" {
   location = "australiasoutheast"
   name     = "tfc"
+  tags     = local.tags
 }
 
 resource "azurerm_key_vault" "tfc" {
@@ -31,6 +38,7 @@ resource "azurerm_key_vault" "tfc" {
   resource_group_name = azurerm_resource_group.tfc.name
   sku_name            = "standard"
   tenant_id           = data.azurerm_client_config.current.tenant_id
+  tags                = local.tags
 }
 
 resource "azurerm_key_vault_access_policy" "agent" {
@@ -55,10 +63,16 @@ resource "azurerm_key_vault_secret" "secret" {
   ]
   key_vault_id = azurerm_key_vault.tfc.id
   name         = "secret"
-  value        = "3lit3hax0r"
+  value        = "3l1t3hax0r"
+  tags         = local.tags
 }
 
 output "secret" {
   value     = azurerm_key_vault_secret.secret.value
   sensitive = true
+}
+
+output "static" {
+  value     = "unprotected"
+  sensitive = false
 }
